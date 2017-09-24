@@ -1,7 +1,7 @@
 var ops = "";
 
 if(process.argv.length == 2){
-    console.log("*****Throw me a freaken bone*****\n" + 
+    console.log("*****Throw me a freakin bone*****\n" + 
     'Follow this pattern to get\n' + 
     ' my tweets: enter - node liri.js my-tweets\n' + 
     ' my music: enter - node liri.js spotify-this-song "<title>"\n' + 
@@ -55,5 +55,27 @@ if(process.argv.length == 2){
             }
         });
         break;
+
+        case 'spotify':
+        
+        case 'spotify-this-song':
+
+        case 'spotify this song':
+
+        case 'spotify-this-song-':
+
+        var Spotify = require('node-spotify-api');
+
+        var key = require('./keys.js');
+
+        var spotify = new Spotify(key);
+
+spotify.search({type: 'track', query: 'All the Small Things' }, function(err, data) {
+  if (err) {
+    return console.log('Error occurred: ' + err);
+  }
+ 
+console.log(data); 
+});
     };
 };
