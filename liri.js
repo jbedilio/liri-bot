@@ -1,7 +1,7 @@
 var ops = "";
 
 if(process.argv.length == 2){
-    console.log("*****Throw me a fricken bone*****\n" + 
+    console.log("*****Throw me a freaken bone*****\n" + 
     'Follow this pattern to get\n' + 
     ' my tweets: enter - node liri.js my-tweets\n' + 
     ' my music: enter - node liri.js spotify-this-song "<title>"\n' + 
