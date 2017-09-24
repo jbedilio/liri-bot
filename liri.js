@@ -1,5 +1,3 @@
-var ops = "";
-
 if(process.argv.length == 2){
     console.log("*****Throw me a freakin bone*****\n" + 
     'Follow this pattern to get\n' + 
@@ -11,10 +9,11 @@ if(process.argv.length == 2){
 
 }else{
 
-    for(let i = 2; i < process.argv.length; i++){
+    /*for(let i = 2; i < process.argv.length; i++){
 
         ops += process.argv[i] + "-";
-    }
+    }*/
+    var ops = process.argv[2];
 
     console.log(ops);
 
@@ -30,7 +29,7 @@ if(process.argv.length == 2){
 
         var Twitter = require('twitter');           
 
-        var keys = require('./keys.js');
+        var keys = require('./twitkeys.js');
 
         var client = new Twitter(keys);
 
@@ -66,16 +65,37 @@ if(process.argv.length == 2){
 
         var Spotify = require('node-spotify-api');
 
-        var key = require('./keys.js');
+        var key = require('./spotkeys.js');
 
         var spotify = new Spotify(key);
 
-spotify.search({type: 'track', query: 'All the Small Things' }, function(err, data) {
-  if (err) {
-    return console.log('Error occurred: ' + err);
-  }
- 
-console.log(data); 
-});
+        spotify.search({type: 'track', query: 'All the Small Things' }, (err, data) => {
+
+            if (err) {
+
+                return console.log('Error occurred: ' + err);
+
+            }
+
+            console.log(data);
+        });
+        break;
     };
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//search: function({ type: 'artist OR album OR track', query: 'My search query', limit: 20 }, callback);
