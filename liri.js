@@ -21,8 +21,6 @@ if(process.argv.length == 2){
 
         case 'tweets':
 
-        case 'my tweets':
-
         case 'my-tweets':
         
         case 'my-tweets-':
@@ -59,26 +57,53 @@ if(process.argv.length == 2){
         
         case 'spotify-this-song':
 
-        case 'spotify this song':
-
         case 'spotify-this-song-':
 
-        var Spotify = require('node-spotify-api');
+        var song = "";
+
+        for(let i = 3; i < process.argv.length; i++){
+
+            song += process.argv[i] + " ";
+        }
+
+        song = encodeURIComponent(song);
+
+        console.log(song);
+
+        var SpotifyWebApi = require('spotify-web-api-node');
 
         var key = require('./spotkeys.js');
 
-        var spotify = new Spotify(key);
+        // credentials are optional
+        var spotifyApi = new SpotifyWebApi(key);
 
-        spotify.search({type: 'track', query: 'All the Small Things' }, (err, data) => {
+        // Retrieve an access token.
+        spotifyApi.clientCredentialsGrant()
 
-            if (err) {
+            .then((token) => {
 
-                return console.log('Error occurred: ' + err);
+                console.log('The access token expires in ' + data.body['expires_in']);
 
-            }
+                console.log('The access token is ' + data.body['access_token']);
 
-            console.log(data);
-        });
+                // Save the access token so that it's used in future calls
+                spotifyApi.setAccessToken(data.body['access_token']);
+
+                }, (err) => {
+
+                    console.log('Something went wrong when retrieving an access token', err);
+                });
+                // Search tracks whose name, album or artist contains song
+                spotifyApi.searchTracks({q: song, type: 'track', limit: 1})
+
+                    .then((data) => {
+
+                        console.log('Search by song', data.body);
+
+                    }, (err) => {
+
+                        console.error('Something went wrong with the search', err);
+                    });
         break;
     };
 };
