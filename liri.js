@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 var request = require('request');
 
 var Twitter = require('twitter');
@@ -130,6 +132,12 @@ if(process.argv.length < 3){
 
         var film = "";
 
+        if (process.argv.length < 4) {
+
+            film = 'Mr. Nobody';
+
+        }
+
         for(let i = 3; i < process.argv.length; i++){
 
             film += process.argv[i] + " ";
@@ -151,9 +159,35 @@ if(process.argv.length < 3){
                 console.log(jp.Actors)
 
                 console.log("IMDB rating of " + jp.imdbRating + " & Rotten Tomatoes rating of " + jp.Ratings[1].Value);
-            }
 
+                console.log(jp.Plot);
+                }
             });
         break;
+
+        case 'do':
+
+        case 'do-what':
+
+        case 'do-what-it':
+
+        case 'do-what-it-says':
+
+        var text = "";
+
+        if(process.argv < 3)
+
+        fs.appendFile('random.txt', text, (error) => {
+
+                if (err){
+
+                    throw err;
+                }
+
+                console.log(text);
+
+            });
+
+
     };
 };
