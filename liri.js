@@ -108,31 +108,12 @@ if(process.argv.length == 2){
                         console.log('Artist: ' + music.artists[0].name);
 
                         console.log('Album: ' + music.album.name);
-
+                        
                         console.log('Title: ' + music.name);
                         
-                        if(preview_url === null){
+                        console.log('Preview: ' + music.preview_url);
 
-                            console.log('Sorry, no preview available.');
-
-                        }else
-
-                            console.log('Preview: ' + music.preview_url);
-                        //console.log(data);
-
-                        // console.log(shiz);
-
-                        // console.log(shiz.artists.name)
-
-                        // console.log('Artist: ' + shiz.artists);
-
-                        // console.log('Album: ' + shiz.albums);
-
-                        // console.log('Title: ' + shiz.tracks);
-
-                        // console.log('Preview link: ' + shiz.preview_url);
-
-                        }), (err) => {
+                        }),(err) => {
 
                         console.error('Something went wrong with the search', err);
                     };
