@@ -1,3 +1,16 @@
+var Twitter = require('twitter');
+
+var keys = require('./twitkeys.js');
+
+var SpotifyWebApi = require('spotify-web-api-node');
+
+var key = require('./spotkeys.js');
+
+
+
+
+
+
 if(process.argv.length == 2){
     console.log("*****Throw me a freakin bone*****\n" + 
     'Follow this pattern to get\n' + 
@@ -24,10 +37,6 @@ if(process.argv.length == 2){
         case 'my-tweets':
         
         case 'my-tweets-':
-
-        var Twitter = require('twitter');           
-
-        var keys = require('./twitkeys.js');
 
         var client = new Twitter(keys);
 
@@ -59,62 +68,69 @@ if(process.argv.length == 2){
 
         case 'spotify-this-song-':
 
-        var song = "";
+        var title = "";
+
+        if (process.argv.length < 4) {
+
+            title = 'The Sign';
+
+        }
 
         for(let i = 3; i < process.argv.length; i++){
 
-            song += process.argv[i] + " ";
+            title += process.argv[i] + " ";
         }
 
-        song = encodeURIComponent(song);
-
-        console.log(song);
-
-        /*if(song == null){
-
-            song = "The Sign";
-            
-        }*/
-
-        var SpotifyWebApi = require('spotify-web-api-node');
-
-        var key = require('./spotkeys.js');
+        console.log(title);
 
         // credentials are optional
-        var spotifyApi = new SpotifyWebApi(key);
+        var spotifyApi = new SpotifyWebApi(key);        
 
         // Retrieve an access token.
         spotifyApi.clientCredentialsGrant()
         
             .then((data)=> {
 
-                console.log('The access token expires in ' + data.body['expires_in']);
+                //console.log('The access token expires in ' + data.body['expires_in']);
 
-                console.log('The access token is ' + data.body['access_token']);
+                //console.log('The access token is ' + data.body['access_token']);
 
                 // Save the access token so that it's used in future calls
                 spotifyApi.setAccessToken(data.body['access_token']);
 
                 // Search tracks whose name, album or artist contains song
-                spotifyApi.searchTracks('track:' + song, { limit: 1})
+                spotifyApi.searchTracks('track:' + title, { limit: 1})
                     
                     .then((data) => {
 
-                        //var music = data.body.tracks.items[0];
+                        var music = data.body.tracks.items[0];
 
-                        var shiz = data.body.tracks.items[0];
+                        console.log('Artist: ' + music.artists[0].name);
 
-                        console.log(shiz);
+                        console.log('Album: ' + music.album.name);
 
-                        console.log(shiz.artists.name)
+                        console.log('Title: ' + music.name);
+                        
+                        if(preview_url === null){
 
-                        console.log('Artist: ' + shiz.artist.name);
+                            console.log('Sorry, no preview available.');
 
-                        console.log('Album: ' + shiz.album.name);
+                        }else
 
-                        console.log('Title: ' + shiz.track.name);
+                            console.log('Preview: ' + music.preview_url);
+                        //console.log(data);
 
-                        console.log('Preview link: ' + shiz.preview_url);
+                        // console.log(shiz);
+
+                        // console.log(shiz.artists.name)
+
+                        // console.log('Artist: ' + shiz.artists);
+
+                        // console.log('Album: ' + shiz.albums);
+
+                        // console.log('Title: ' + shiz.tracks);
+
+                        // console.log('Preview link: ' + shiz.preview_url);
 
                         }), (err) => {
 
@@ -122,22 +138,6 @@ if(process.argv.length == 2){
                     };
                 });
         break;
+
     };
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//search: function({ type: 'artist OR album OR track', query: 'My search query', limit: 20 }, callback);
