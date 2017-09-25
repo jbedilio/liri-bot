@@ -70,6 +70,12 @@ if(process.argv.length == 2){
 
         console.log(song);
 
+        /*if(song == null){
+
+            song = "The Sign";
+            
+        }*/
+
         var SpotifyWebApi = require('spotify-web-api-node');
 
         var key = require('./spotkeys.js');
@@ -79,8 +85,8 @@ if(process.argv.length == 2){
 
         // Retrieve an access token.
         spotifyApi.clientCredentialsGrant()
-
-            .then((token) => {
+        
+            .then((data)=> {
 
                 console.log('The access token expires in ' + data.body['expires_in']);
 
@@ -89,21 +95,32 @@ if(process.argv.length == 2){
                 // Save the access token so that it's used in future calls
                 spotifyApi.setAccessToken(data.body['access_token']);
 
-                }, (err) => {
-
-                    console.log('Something went wrong when retrieving an access token', err);
-                });
                 // Search tracks whose name, album or artist contains song
-                spotifyApi.searchTracks({q: song, type: 'track', limit: 1})
-
+                spotifyApi.searchTracks('track:' + song, { limit: 1})
+                    
                     .then((data) => {
 
-                        console.log('Search by song', data.body);
+                        //var music = data.body.tracks.items[0];
 
-                    }, (err) => {
+                        var shiz = data.body.tracks.items[0];
+
+                        console.log(shiz);
+
+                        console.log(shiz.artists.name)
+
+                        console.log('Artist: ' + shiz.artist.name);
+
+                        console.log('Album: ' + shiz.album.name);
+
+                        console.log('Title: ' + shiz.track.name);
+
+                        console.log('Preview link: ' + shiz.preview_url);
+
+                        }), (err) => {
 
                         console.error('Something went wrong with the search', err);
-                    });
+                    };
+                });
         break;
     };
 };
