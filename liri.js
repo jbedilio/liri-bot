@@ -1,3 +1,5 @@
+var request = require('request');
+
 var Twitter = require('twitter');
 
 var keys = require('./twitkeys.js');
@@ -11,13 +13,13 @@ var key = require('./spotkeys.js');
 
 
 
-if(process.argv.length == 2){
+if(process.argv.length < 3){
     console.log("*****Throw me a freakin bone*****\n" + 
     'Follow this pattern to get\n' + 
-    ' my tweets: enter - node liri.js my-tweets\n' + 
-    ' my music: enter - node liri.js spotify-this-song "<title>"\n' + 
-    ' my movies: enter - node liri.js movie-this "<title>"\n' + 
-    ' random.txt: enter - node liri.js do-what-it-says');
+    ' my tweets:   node liri.js my-tweets\n' + 
+    ' my music:    node liri.js spotify-this-song title\n' + 
+    ' my movies:   node liri.js movie-this title\n' + 
+    ' random.txt:  node liri.js do-what-it-says');
     return;
 
 }else{
@@ -72,7 +74,7 @@ if(process.argv.length == 2){
 
         if (process.argv.length < 4) {
 
-            title = 'The Sign';
+            title = 'the sign, ace of base';
 
         }
 
@@ -108,7 +110,7 @@ if(process.argv.length == 2){
                         console.log('Artist: ' + music.artists[0].name);
 
                         console.log('Album: ' + music.album.name);
-                        
+
                         console.log('Title: ' + music.name);
                         
                         console.log('Preview: ' + music.preview_url);
@@ -119,6 +121,39 @@ if(process.argv.length == 2){
                     };
                 });
         break;
+        
+        case 'movie':
+        
+        case 'movie-this':
 
+        case 'movie-this-':
+
+        var film = "";
+
+        for(let i = 3; i < process.argv.length; i++){
+
+            film += process.argv[i] + " ";
+        }
+
+        request("http://www.omdbapi.com/?t=" + film + "&y=&plot=short&apikey=40e9cece", (error, response, body) => {
+
+            if(error){
+
+                console.log('error:', error); // Print the error if one occurred
+            };
+
+            if(response.statusCode == 200){
+
+                var jp = JSON.parse(body);
+
+                console.log(jp.Title + "(" + jp.Year + ")" + " " + jp.Country + " " + jp.Language);
+
+                console.log(jp.Actors)
+
+                console.log("IMDB rating of " + jp.imdbRating + " & Rotten Tomatoes rating of " + jp.Ratings[1].Value);
+            }
+
+            });
+        break;
     };
 };
