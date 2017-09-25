@@ -36,6 +36,20 @@ if(process.argv.length < 3){
 
     switch(ops){
 
+        case 'node liri.js':
+
+        var log = "";
+        
+        fs.appendFile('log.txt', log, (error) => {
+
+            if (error) {
+
+                throw error;
+            }
+
+            console.log(log);
+        });
+
         case 'tweets':
 
         case 'my-tweets':
@@ -175,19 +189,24 @@ if(process.argv.length < 3){
 
         var text = "";
 
-        if(process.argv < 3)
+        if(process.argv.length < 4){
 
-        fs.appendFile('random.txt', text, (error) => {
+            text = 'spotify-this-song' +  " " + "I Want it That Way"; 
+        };
 
-                if (err){
+        fs.writeFile('random.txt', text, (error) => {
 
-                    throw err;
+                if (error){
+
+                    throw error;
                 }
 
                 console.log(text);
 
             });
+        
 
+        break;
 
     };
 };
