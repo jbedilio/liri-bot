@@ -35,31 +35,32 @@ if(process.argv.length < 3){
         case 'tweets':
         
         case 'my-tweets':
-        //establishing the Twitter bot
+        //establishing the Twitter bot with user credentials 
         var client = new Twitter(keys);
         //setting parameters for the twitter api call
         var params = { screen_name: 'joecitizn', count: 20};
         //making the api call with a specified end point
         client.get('statuses/user_timeline', params, (error, tweets, response) => {
-
+        //handeling the error, if there is one
         if (error) {
 
             throw error;
         }
+            //handeling the response if no error
             if(response.statusCode == 200){
-
+                //looping through the data
                 for(let i = 0; i < tweets.length; i++){
-
+                    //placing the data in the argument variable
                     process.argv[2] = tweets[i].text;
-
+                    
                     process.argv[3] = tweets[i].created_at;
 
                     console.log(process.argv[2] + " " + process.argv[3]);
-
+                    //setting the log var to the resulting data
                     log = process.argv[2] + " " + process.argv[3];
-
+                    //logging the data onto log.txt
                     fs.appendFile('log.txt', log, (error) => {
-
+                        //handeling errors
                         if(error){
 
                             throw error;
@@ -68,23 +69,23 @@ if(process.argv.length < 3){
                 }
             }
         });
-
+        
         break;
-
+        //setting cases for user input in var cmd
         case 'spotify':
         
         case 'spotify-this':
 
         case 'spotify-this-song':
-
+        //setting the var song to hold the song
         var song = "";
-
+        //setting a default song in the event the user doesn't enter one
         if (process.argv.length < 4) {
 
             song = 'the sign, ace of base';
 
         }
-
+        //looping the terms entered following the cmd var to concatenate the remaining terms intp one song
         for(let i = 3; i < process.argv.length; i++){
 
             song += process.argv[i] + " ";
