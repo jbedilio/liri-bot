@@ -126,8 +126,11 @@ if(process.argv.length < 3){
                         console.log('Preview: ' + music.preview_url);
 
                         log = ['Artist: ' + music.artists[0].name + '\n',
+
                                'Album: ' + music.album.name + '\n',
+
                                'Title: ' + music.name + '\n',
+
                                'Preview: ' + music.preview_url];
 
                         fs.appendFile('log.txt', log, (error) => {
@@ -182,6 +185,22 @@ if(process.argv.length < 3){
                 console.log("IMDB rating of " + jp.imdbRating + " & Rotten Tomatoes rating of " + jp.Ratings[1].Value);
 
                 console.log(jp.Plot);
+
+                log = [jp.Title + "(" + jp.Year + ")" + " " + jp.Country + " " + jp.Language + '\n',
+
+                       jp.Actors + '\n',
+
+                       "IMDB rating of " + jp.imdbRating + " & Rotten Tomatoes rating of " + jp.Ratings[1].Value + '\n',
+
+                       jp.Plot];
+
+                fs.appendFile('log.txt', log, (error) => {
+
+                    if (error) {
+                        throw error;
+                    }
+                });
+
                 }
             });
         break;
@@ -212,6 +231,15 @@ if(process.argv.length < 3){
 
             });
         
+        fs.appendFile('log.txt', text, (error) => {
+
+            if (error) {
+
+                throw error;
+            }
+
+            console.log(log);
+        })
 
         break;
 
@@ -224,12 +252,4 @@ if(process.argv.length < 3){
 
 /*var log = "";
 
-fs.appendFile('log.txt', log, (error) => {
-
-    if (error) {
-
-        throw error;
-    }
-
-    console.log(log);
-});*/
+;*/
