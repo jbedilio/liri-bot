@@ -10,9 +10,7 @@ var SpotifyWebApi = require('spotify-web-api-node');
 
 var key = require('./spotkeys.js');
 
-
-
-
+var log = "";
 
 
 if(process.argv.length < 3){
@@ -25,7 +23,6 @@ if(process.argv.length < 3){
     return;
 
 }else{
-
     /*for(let i = 2; i < process.argv.length; i++){
 
         ops += process.argv[i] + "-";
@@ -35,20 +32,6 @@ if(process.argv.length < 3){
     console.log(ops);
 
     switch(ops){
-
-        case 'node liri.js':
-
-        var log = "";
-        
-        fs.appendFile('log.txt', log, (error) => {
-
-            if (error) {
-
-                throw error;
-            }
-
-            console.log(log);
-        });
 
         case 'tweets':
 
@@ -75,9 +58,20 @@ if(process.argv.length < 3){
                     process.argv[3] = tweets[i].created_at;
 
                     console.log(process.argv[2] + " " + process.argv[3]);
+
+                    log = process.argv[2] + " " + process.argv[3];
+
+                    fs.appendFile('log.txt', log, (error) => {
+
+                        if(error){
+
+                            throw error;
+                        }
+                    });
                 }
             }
         });
+
         break;
 
         case 'spotify':
@@ -210,3 +204,19 @@ if(process.argv.length < 3){
 
     };
 };
+
+
+
+
+
+/*var log = "";
+
+fs.appendFile('log.txt', log, (error) => {
+
+    if (error) {
+
+        throw error;
+    }
+
+    console.log(log);
+});*/
