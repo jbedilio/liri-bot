@@ -12,7 +12,7 @@ var key = require('./spotkeys.js');
 
 var log = "";
 
-
+//setting user instructions
 if(process.argv.length < 3){
     console.log("*****Throw me a freakin bone*****\n" + 
     'Follow this pattern to get\n' + 
@@ -23,23 +23,23 @@ if(process.argv.length < 3){
     return;
 
 }else{
-
+    //setting the cmd var to grab process.argv[2]
     var cmd = process.argv[2];
 
     console.log(cmd);
-
+//setting the switch to operate based on the cmd set by process.argv[2]
     switch(cmd){
-
+        //setting different cases
         case 'my':
 
         case 'tweets':
         
         case 'my-tweets':
-
+        //establishing the Twitter bot
         var client = new Twitter(keys);
-
+        //setting parameters for the twitter api call
         var params = { screen_name: 'joecitizn', count: 20};
-
+        //making the api call with a specified end point
         client.get('statuses/user_timeline', params, (error, tweets, response) => {
 
         if (error) {
