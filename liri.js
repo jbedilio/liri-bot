@@ -33,11 +33,11 @@ if(process.argv.length < 3){
 
     switch(ops){
 
-        case 'tweets':
+        case 'my':
 
-        case 'my-tweets':
+        case 'tweets':
         
-        case 'my-tweets-':
+        case 'my-tweets':
 
         var client = new Twitter(keys);
 
@@ -76,9 +76,9 @@ if(process.argv.length < 3){
 
         case 'spotify':
         
-        case 'spotify-this-song':
+        case 'spotify-this':
 
-        case 'spotify-this-song-':
+        case 'spotify-this-song':
 
         var title = "";
 
@@ -152,8 +152,6 @@ if(process.argv.length < 3){
         
         case 'movie-this':
 
-        case 'movie-this-':
-
         var film = "";
 
         if (process.argv.length < 4) {
@@ -220,29 +218,32 @@ if(process.argv.length < 3){
             text = 'spotify-this-song' +  " " + "I Want it That Way"; 
         };
 
-        fs.writeFile('random.txt', text, (error) => {
+        fs.readFile('random.txt', 'utf8', (error, data) => {
 
-                if (error){
-
-                    throw error;
-                }
-
-                console.log(text);
-
-            });
-        
-        fs.appendFile('log.txt', text, (error) => {
-
-            if (error) {
+            if (error){
 
                 throw error;
             }
 
-            console.log(log);
-        })
+            var dataArr = data.split(',');
 
-        break;
+            console.log(dataArr);
 
+            ops = dataArr[0];
+
+            process.argv[3] = dataArr[1];
+
+            fs.appendFile('log.txt', text, (error) => {
+
+                if (error) {
+
+                    throw error;
+                }
+
+                console.log(log);
+            })
+            return ops;
+        });
     };
 };
 
