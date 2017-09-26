@@ -125,6 +125,19 @@ if(process.argv.length < 3){
                         
                         console.log('Preview: ' + music.preview_url);
 
+                        log = ['Artist: ' + music.artists[0].name + '\n',
+                               'Album: ' + music.album.name + '\n',
+                               'Title: ' + music.name + '\n',
+                               'Preview: ' + music.preview_url];
+
+                        fs.appendFile('log.txt', log, (error) => {
+
+                            if (error) {
+
+                                throw error;
+                            }
+                        });
+
                         }),(err) => {
 
                         console.error('Something went wrong with the search', err);
