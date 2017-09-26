@@ -23,15 +23,12 @@ if(process.argv.length < 3){
     return;
 
 }else{
-    /*for(let i = 2; i < process.argv.length; i++){
 
-        ops += process.argv[i] + "-";
-    }*/
-    var ops = process.argv[2];
+    var cmd = process.argv[2];
 
-    console.log(ops);
+    console.log(cmd);
 
-    switch(ops){
+    switch(cmd){
 
         case 'my':
 
@@ -80,20 +77,20 @@ if(process.argv.length < 3){
 
         case 'spotify-this-song':
 
-        var title = "";
+        var song = "";
 
         if (process.argv.length < 4) {
 
-            title = 'the sign, ace of base';
+            song = 'the sign, ace of base';
 
         }
 
         for(let i = 3; i < process.argv.length; i++){
 
-            title += process.argv[i] + " ";
+            song += process.argv[i] + " ";
         }
 
-        console.log(title);
+        console.log(song);
 
         // credentials are optional
         var spotifyApi = new SpotifyWebApi(key);        
@@ -111,7 +108,7 @@ if(process.argv.length < 3){
                 spotifyApi.setAccessToken(data.body['access_token']);
 
                 // Search tracks whose name, album or artist contains song
-                spotifyApi.searchTracks('track:' + title, { limit: 1})
+                spotifyApi.searchTracks('track:' + song, { limit: 1})
                     
                     .then((data) => {
 
@@ -127,11 +124,11 @@ if(process.argv.length < 3){
 
                         log = ['Artist: ' + music.artists[0].name + '\n',
 
-                               'Album: ' + music.album.name + '\n',
+                            'Album: ' + music.album.name + '\n',
 
-                               'Title: ' + music.name + '\n',
+                            'Title: ' + music.name + '\n',
 
-                               'Preview: ' + music.preview_url];
+                            'Preview: ' + music.preview_url];
 
                         fs.appendFile('log.txt', log, (error) => {
 
@@ -186,11 +183,11 @@ if(process.argv.length < 3){
 
                 log = [jp.Title + "(" + jp.Year + ")" + " " + jp.Country + " " + jp.Language + '\n',
 
-                       jp.Actors + '\n',
+                    jp.Actors + '\n',
 
-                       "IMDB rating of " + jp.imdbRating + " & Rotten Tomatoes rating of " + jp.Ratings[1].Value + '\n',
+                    "IMDB rating of " + jp.imdbRating + " & Rotten Tomatoes rating of " + jp.Ratings[1].Value + '\n',
 
-                       jp.Plot];
+                    jp.Plot];
 
                 fs.appendFile('log.txt', log, (error) => {
 
@@ -213,7 +210,7 @@ if(process.argv.length < 3){
 
         var text = "";
 
-        if(process.argv.length < 4){
+        if(process.argv.length < 3){
 
             text = 'spotify-this-song' +  " " + "I Want it That Way"; 
         };
@@ -227,30 +224,53 @@ if(process.argv.length < 3){
 
             var dataArr = data.split(',');
 
-            console.log(dataArr);
+            var song = dataArr[1];
 
-            ops = dataArr[0];
+            console.log(dataArr[1]);
 
-            process.argv[3] = dataArr[1];
+            spotifyApi = new SpotifyWebApi(key);
 
-            fs.appendFile('log.txt', text, (error) => {
+            spotifyApi.clientCredentialsGrant()
 
-                if (error) {
+                .then((data) => {
 
-                    throw error;
-                }
+                    spotifyApi.setAccessToken(data.body['access_token']);
 
-                console.log(log);
-            })
-            return ops;
-        });
+                    spotifyApi.searchTracks('track:' + song, { limit: 1 })
+
+                    .then((data) => {
+
+                        var music = data.body.tracks.items[0];
+
+                        console.log('Artist: ' + music.artists[0].name);
+
+                        console.log('Album: ' + music.album.name);
+
+                        console.log('Title: ' + music.name);
+
+                        console.log('Preview: ' + music.preview_url);
+
+                        log = ['Artist: ' + music.artists[0].name + '\n',
+
+                               'Album: ' + music.album.name + '\n',
+
+                               'Title: ' + music.name + '\n',
+
+                               'Preview: ' + music.preview_url];
+
+                    fs.appendFile('log.txt', log, (error) => {
+
+                        if (error) {
+
+                            throw error;
+                        }
+                    }); (err) => {
+
+                        console.error('Something went wrong with the search', err);
+                        };
+                    });
+                });
+            });
+        break;
     };
 };
-
-
-
-
-
-/*var log = "";
-
-;*/
