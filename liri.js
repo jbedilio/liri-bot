@@ -35,7 +35,7 @@ if(process.argv.length < 3){
         case 'tweets':
         
         case 'my-tweets':
-        //establishing the Twitter bot with user credentials 
+        //constructing the Twitter bot with user credentials 
         var client = new Twitter(keys);
         //setting parameters for the twitter api call
         var params = { screen_name: 'joecitizn', count: 20};
